@@ -17,7 +17,7 @@ total_token_count = 0  # Initialize total token count to 0
 open_ai = os.getenv("OPEN_AI_KEY")
 pass_thru = os.getenv("PASS_THRU")
 
-ico = Image.open("../static/favicon.ico")
+ico = Image.open("static/favicon.ico")
 st.set_page_config(
     page_title="AiCrony Social Network: Chat with AI Friends",
     page_icon=ico,

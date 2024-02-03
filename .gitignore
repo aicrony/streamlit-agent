@@ -167,3 +167,4 @@ docs/docs_skeleton/node_modules
 docs/docs_skeleton/yarn.lock
 
 secrets.toml
+/streamlit_agent/static/

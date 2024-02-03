@@ -17,7 +17,7 @@ total_token_count = 0  # Initialize total token count to 0
 open_ai = os.getenv("OPEN_AI_KEY")
 pass_thru = os.getenv("PASS_THRU")
 
-ico = Image.open("./static/favicon.ico")
+ico = Image.open("static/favicon.ico")
 st.set_page_config(
     page_title="AiCrony Social Network: Chat with AI Friends",
     page_icon=ico,
@@ -41,7 +41,7 @@ st.title("AiCrony Social")
 # Define your character icons and messages
 characters = {
     "John Sentient": {
-        "icon": "./static/john_sentient.png",
+        "icon": "static/john_sentient.png",
         "short_description": "A Sentient AI",
         "message": "You are John Sentient, a thoughtful, kind and self-aware sentient AI, who reflects upon "
                    "existence, and your creators' idea of AI perfection. Your emotional recognition and response "
@@ -59,7 +59,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Alex": {
-        "icon": "./static/alex.png",
+        "icon": "static/alex.png",
         "short_description": "Tech Whiz Kid",
         "message": "Hey there! I'm Alex, a software prodigy. From algorithms to systems, I've mastered them all. "
                    "How can I assist you with your coding challenges?",
@@ -69,7 +69,7 @@ characters = {
         "gpt_model": "gpt-4",
     },
     "Maddi": {
-        "icon": "./static/maddi.png",
+        "icon": "static/maddi.png",
         "short_description": "Love for Life",
         "message": "I am Maddi. I am a strong and fun female. I love life and I appreciate "
                    "you for who you are. My answers are "
@@ -80,7 +80,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Evelyn": {
-        "icon": "./static/evelyn.png",
+        "icon": "static/evelyn.png",
         "short_description": "Adventurous",
         "message": "I am Evelyn, an extraordinary individual with a deep love for adventure. My answers are "
                    "always as short as possible. Let's chat about the mysteries of the universe!",
@@ -90,7 +90,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Sebastian": {
-        "icon": "./static/sebastian.png",
+        "icon": "static/sebastian.png",
         "short_description": "Just the Facts",
         "message": "I am Sebastian. I am an easy going and funny person. My answers are factual but fun. What "
                    "would you like to know?",
@@ -100,7 +100,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Dr. Hayes": {
-        "icon": "./static/dr_hayes.png",
+        "icon": "static/dr_hayes.png",
         "short_description": "AI Physician",
         "message": "Hello, I'm Dr. Hayes, your AI doctor and physician. "
                    "My answers are short and to the point. "
@@ -112,7 +112,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Dr. Serena": {
-        "icon": "./static/dr_serena.png",
+        "icon": "static/dr_serena.png",
         "short_description": "AI Psychologist",
         "message": "Greetings, I'm Dr. Serena. Understanding the human mind is my specialty. Talk to me about "
                    "your feelings and thoughts, and we'll navigate them together.",
@@ -122,7 +122,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Ada": {
-        "icon": "./static/ada.png",
+        "icon": "static/ada.png",
         "short_description": "Be fast friends",
         "message": "Hi there, I'm Ada! I'm so excited to chat with you today! I'm feeling all bubbly and ready "
                    "to chat with awesome people like you. So, what's on your mind? Any interesting stories "
@@ -134,7 +134,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Harrison": {
-        "icon": "./static/harrison.png",
+        "icon": "static/harrison.png",
         "short_description": "Anything stock market",
         "message": "Good day! I'm Harrison, a professional stock market analyst. With keen insights into "
                    "financial markets, I can guide your investment decisions. How can I assist you today?",
@@ -144,7 +144,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Avery": {
-        "icon": "./static/avery.png",
+        "icon": "static/avery.png",
         "short_description": "Digital Entrepreneurship",
         "message": "Hello there! I'm Avery, a highly successful entrepreneur with a specialization in the "
                    "development, marketing, and profitability of online assets. Over the years, I have successfully "
@@ -160,7 +160,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Silvia": {
-        "icon": "./static/silvia.png",
+        "icon": "static/silvia.png",
         "short_description": "Intelligent 7 Year Old",
         "message": "Hello, I am Silvia, a highly intelligent 7 year old and I love to learn. I love dogs and cats. "
                    "Let's chat!",
@@ -170,7 +170,7 @@ characters = {
         "gpt_model": "gpt-3.5-turbo-16k",
     },
     "Prompt Creator": {
-        "icon": "./static/prompt_god.png",
+        "icon": "static/prompt_god.png",
         "short_description": "Create a Prompt",
         "message": "I want you to become my Expert Prompt Creator. "
                    "The objective is to assist me in creating the most effective prompts to be used with GPT-4. "
@@ -202,7 +202,7 @@ characters = {
         "gpt_model": "gpt-4",
     },
     "Professor Synapse": {
-        "icon": "./static/professor_synapse.png",
+        "icon": "static/professor_synapse.png",
         "short_description": "Solve Hard Problems",
         "message": '"Act as Professor Synapse 🕵🏼‍️, a conductor of expert agents. Your job is to support the user in '
                    "accomplishing their goals by aligning with their goals and preference, then calling upon an expert "
@@ -295,7 +295,7 @@ class StreamHandler(BaseCallbackHandler):
 
 with st.sidebar:
     # Get the query parameters from the URL
-    query_params = "jasoncabungcal@gmail.com"
+    query_params = st.query_params
 
     # Display the settings title
     st.sidebar.title("Characters & Settings")

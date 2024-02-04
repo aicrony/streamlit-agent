@@ -15,11 +15,10 @@ from langchain_community.tools import DuckDuckGoSearchRun
 import toml
 
 # Load the secrets.toml file
-secrets = toml.load('.streamlit/secrets.toml')
 total_token_count = 0  # Initialize total token count to 0
 
-open_ai = secrets["OPEN_AI_KEY"]
-pass_thru = secrets["PASS_THRU"]
+open_ai = st.secrets["OPEN_AI_KEY"]
+pass_thru = st.secrets["PASS_THRU"]
 
 ico = Image.open("../static/favicon.ico")
 st.set_page_config(
@@ -313,8 +312,8 @@ with st.sidebar:
         st.session_state.get("slider_value", 0.74),  # Default value, you can change as needed
     )
 
-    registered_users = secrets["REGISTERED_USERS"]
-    registered_user = secrets["REGISTERED_USER"]
+    registered_users = st.secrets["REGISTERED_USERS"]
+    registered_user = st.secrets["REGISTERED_USER"]
 
     gpt_models = ["gpt-3.5-turbo-16k", "gpt-4"]
     selected_model = st.selectbox("Model:", gpt_models, index=0)

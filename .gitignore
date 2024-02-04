@@ -168,3 +168,4 @@ docs/docs_skeleton/yarn.lock
 
 /.streamlit/
 /streamlit_agent/.streamlit/
+/streamlit_agent/static/

@@ -20,7 +20,7 @@ total_token_count = 0  # Initialize total token count to 0
 open_ai = st.secrets["OPEN_AI_KEY"]
 pass_thru = st.secrets["PASS_THRU"]
 
-ico = Image.open("../static/favicon.ico")
+ico = Image.open("static/favicon.ico")
 st.set_page_config(
     page_title="AiCrony Friends GPT: Chat with AI Friends",
     page_icon=ico,

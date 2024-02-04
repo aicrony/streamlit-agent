@@ -12,11 +12,14 @@ from langchain.callbacks.base import BaseCallbackHandler
 from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import ChatMessage
 from langchain_community.tools import DuckDuckGoSearchRun
+import toml
 
+# Load the secrets.toml file
+secrets = toml.load('.streamlit/secrets.toml')
 total_token_count = 0  # Initialize total token count to 0
 
-open_ai = os.getenv("OPEN_AI_KEY")
-pass_thru = os.getenv("PASS_THRU")
+open_ai = secrets["OPEN_AI_KEY"]
+pass_thru = secrets["PASS_THRU"]
 
 ico = Image.open("static/favicon.ico")
 st.set_page_config(
@@ -250,7 +253,7 @@ if st.button("Clear Chat"):
 
 def blog_post_function(topic, date_to_post):
     # dev_url = "http://127.0.0.1:8081/api/v1/completions/"
-    url = "https://aicrony-api.vercel.app/"
+    url = "https://aicrony-api.vercel.app/api/v1/completions/"
 
     # Show the submitted elements
     print(topic)
@@ -310,8 +313,8 @@ with st.sidebar:
         st.session_state.get("slider_value", 0.74),  # Default value, you can change as needed
     )
 
-    registered_users = os.getenv("REGISTERED_USERS")
-    registered_user = os.getenv("REGISTERED_USER")
+    registered_users = secrets["REGISTERED_USERS"]
+    registered_user = secrets["REGISTERED_USER"]
 
     gpt_models = ["gpt-3.5-turbo-16k", "gpt-4"]
     selected_model = st.selectbox("Model:", gpt_models, index=0)

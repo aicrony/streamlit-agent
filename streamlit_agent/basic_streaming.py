@@ -251,7 +251,9 @@ if st.button("Clear Chat"):
 
 
 def blog_post_function(topic, date_to_post):
-    # dev_url = "http://127.0.0.1:8081/api/v1/completions/"
+    # DEV
+    # url = "http://127.0.0.1:8081/api/v1/completions/"
+    # PROD
     url = "https://aicrony-api-1.uc.r.appspot.com/api/v1/completions/"
 
     # Show the submitted elements

@@ -251,15 +251,14 @@ if st.button("Clear Chat"):
 
 
 def blog_post_function(topic, date_to_post):
-    # DEV
-    # url = "http://localhost:8081/api/v1/completions/"
-    # PROD
-    url = "https://local-cedar-324921.uc.r.appspot.com/api/v1/completions/"
+
+    url = st.secrets["COMPLETIONS_ENDPOINT"]
 
     # Show the submitted elements
     print(topic)
     print(date_to_post)
 
+    # Pass in user data here from Ghost to be selected from or inserted into the database
     data = {
         "type": "chat-gpt-blog-post",
         "aiPrompt": f"Write a blog post in the third person perspective with at least 7 or more headings, make each "
@@ -448,7 +447,7 @@ if not openai_api_key:
     st.stop()
 
 if openai_api_key and st.session_state["display_blog_button"] is True:
-    if st.button("Write a blog post about the AI's latest response (localhost only)"):
+    if st.button("Write a Blog Post"):
         # st.write("Hello...")
         # Get the current date
         current_date = json.dumps(date.today().isoformat())
@@ -458,14 +457,20 @@ if openai_api_key and st.session_state["display_blog_button"] is True:
         for message in st.session_state.messages[-1]:
             appended_messages += str(message)
 
+        # Create a placeholder
+        message_placeholder = st.empty()
+
+        # Display the waiting message
+        message_placeholder.text("Awaiting blog post completion. Please wait...")
+
+        # Call your function here
         status_code = blog_post_function(appended_messages, current_date)
 
-        if not status_code:
-            st.write("Awaiting blog post completion. Please wait...")
-        elif status_code == 200:
-            st.write("Blog post successfully completed.")
+        # Update the message based on the status code
+        if status_code == 200:
+            message_placeholder.text("Blog post successfully completed.")
         else:
-            st.write("An error occurred. Please try again.")
+            message_placeholder.text("An error occurred. Please try again.")
 
 if prompt := st.chat_input(
         placeholder=st.session_state["prompt_intro"]

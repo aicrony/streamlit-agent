@@ -22,7 +22,7 @@ pass_thru = st.secrets["PASS_THRU"]
 
 ico = Image.open("static/favicon.ico")
 st.set_page_config(
-    page_title="AiCrony Friends GPT: Chat with AI Friends",
+    page_title="AiCrony Social App",
     page_icon=ico,
     layout="wide",
 )
@@ -39,7 +39,7 @@ input_token_count = 0  # Initialize input token count to 0
 # st.image(logo, width=80)
 
 # Display the text in second column
-st.title("AiCrony Friends GPT")
+st.title("AiCrony Social App")
 
 # Define your character icons and messages
 characters = {

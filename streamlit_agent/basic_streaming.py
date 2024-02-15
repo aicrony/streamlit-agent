@@ -14,19 +14,6 @@ from langchain.schema import ChatMessage
 from langchain_community.tools import DuckDuckGoSearchRun
 import toml
 
-# Check if the desired variable exists in the query parameters
-st.session_state['user_token'] = None
-user_token = st.query_params.get('user')
-
-# Check if the user token is available
-if user_token is None and st.session_state['user_token'] is None:
-    st.write("No user token found.")
-elif user_token and not st.session_state['user_token']:
-    st.session_state['user_token'] = user_token
-    st.write(f"User Token: {user_token}")
-elif st.session_state['user_token']:
-    st.write(f"User Token: {st.session_state['user_token']}")
-
 # Load the secrets.toml file
 total_token_count = 0  # Initialize total token count to 0
 
@@ -263,8 +250,21 @@ if st.button("Clear Chat"):
     st.session_state.messages = []
 
 
-def blog_post_function(topic, date_to_post):
+def process_user_token():
+    # Check if the desired variable exists in the query parameters
+    st.session_state['user_token'] = None
+    user_token = st.query_params.get('user')
+    # Check if the user token is available
+    if user_token is None and st.session_state['user_token'] is None:
+        st.write("No user token found.")
+    elif user_token and not st.session_state['user_token']:
+        st.session_state['user_token'] = user_token
+        st.write(f"User Token: {user_token}")
+    elif st.session_state['user_token']:
+        st.write(f"User Token: {st.session_state['user_token']}")
 
+
+def blog_post_function(topic, date_to_post):
     url = st.secrets["COMPLETIONS_ENDPOINT"]
 
     # Show the submitted elements
@@ -309,6 +309,8 @@ class StreamHandler(BaseCallbackHandler):
         self.container.markdown(self.text)
         global total_token_count  # Calculate the total token count
         total_token_count += 1  # Increment total token count
+
+    process_user_token()
 
 
 with st.sidebar:
@@ -388,6 +390,7 @@ with st.sidebar:
         st.write("Login Attempts: ", st.session_state["counter"], "of 4")
         st.write("Chat with AI Friends:")
 
+
         def select_character(character_selected, position):
             st.session_state["selected_character"] = character_selected
             st.session_state["slider_value"] = characters[character_selected]["temperature"]
@@ -403,6 +406,7 @@ with st.sidebar:
                 ]  # Update the message for the selected character
 
             st.session_state["button_clicked"] = True  # Mark the button as clicked
+
 
         # Update the slider value when the character is selected
         for index, (character_name, character) in enumerate(characters.items()):

@@ -15,16 +15,18 @@ from langchain_community.tools import DuckDuckGoSearchRun
 import toml
 
 # Check if the desired variable exists in the query parameters
+st.session_state['user_token'] = None
 query_params = st.query_params()
 user_token = query_params.get('user')
 
-if user_token:
-    st.session_state['user_token'] = user_token
-
-if st.session_state['user_token']:
-    st.write(f"User Token: {st.session_state['user_token']}")
-else:
+# Check if the user token is available
+if user_token is None and st.session_state['user_token'] is None:
     st.write("No user token found.")
+elif user_token and not st.session_state['user_token']:
+    st.session_state['user_token'] = user_token
+    st.write(f"User Token: {user_token}")
+elif st.session_state['user_token']:
+    st.write(f"User Token: {st.session_state['user_token']}")
 
 # Load the secrets.toml file
 total_token_count = 0  # Initialize total token count to 0

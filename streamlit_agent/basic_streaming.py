@@ -21,7 +21,7 @@ user_token = st.query_params('user')
 if user_token:
     st.session_state['user_token'] = user_token
 
-if st.session_state.get('user_token'):
+if st.session_state['user_token']:
     st.write(f"User Token: {st.session_state['user_token']}")
 
 # Load the secrets.toml file

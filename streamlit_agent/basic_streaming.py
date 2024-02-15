@@ -15,8 +15,11 @@ from langchain_community.tools import DuckDuckGoSearchRun
 import toml
 
 # Check if the desired variable exists in the query parameters
-if st.query_params('user'):
-    st.session_state['user_token'] = st.query_params('user')
+query_params = st.query_params()
+user_token = query_params.get('user')
+
+if user_token:
+    st.session_state['user_token'] = user_token
 
 if st.session_state['user_token']:
     st.write(f"User Token: {st.session_state['user_token']}")

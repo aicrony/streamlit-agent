@@ -14,6 +14,16 @@ from langchain.schema import ChatMessage
 from langchain_community.tools import DuckDuckGoSearchRun
 import toml
 
+# Get the query parameters from the URL
+user_token = st.query_params('user')
+
+# Check if the desired variable exists in the query parameters
+if user_token:
+    st.session_state['user_token'] = user_token
+
+if st.session_state.get('user_token'):
+    st.write(f"User Token: {st.session_state['user_token']}")
+
 # Load the secrets.toml file
 total_token_count = 0  # Initialize total token count to 0
 

@@ -259,9 +259,9 @@ def process_user_token():
         st.write("No user token found.")
     elif user_token and not st.session_state['user_token']:
         st.session_state['user_token'] = user_token
-        st.write(f"User Token: {user_token}")
-    elif st.session_state['user_token']:
-        st.write(f"User Token: {st.session_state['user_token']}")
+        st.write(f"User Token Set")
+    elif st.session_state['user_token'] and st.session_state['user_token'] is not None:
+        st.write(f"User Token Exists")
 
 
 def blog_post_function(topic, date_to_post):

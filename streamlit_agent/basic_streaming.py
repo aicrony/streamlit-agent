@@ -16,8 +16,7 @@ import toml
 
 # Check if the desired variable exists in the query parameters
 st.session_state['user_token'] = None
-query_params = st.query_params()
-user_token = query_params.get('user')
+user_token = st.query_params.get('user')
 
 # Check if the user token is available
 if user_token is None and st.session_state['user_token'] is None:

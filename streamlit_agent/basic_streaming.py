@@ -356,8 +356,8 @@ with st.sidebar:
     if st.session_state['user_token'] and st.session_state['user_token'] is not None:
         # print(registered_users)
         # Access the value of the variable
-        user = query_params["email"]
-        st.write("You are logged in as:", user)
+        userEmail = query_params["email"]
+        st.write("You are logged in as:", userEmail)
         st.session_state["is_registered_user"] = True
         openai_api_key = open_ai
         st.markdown(f"[Log Out](/)")

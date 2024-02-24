@@ -358,8 +358,8 @@ with st.sidebar:
         # Access the value of the variable
         userEmail = query_params["email"]
         st.write("You are logged in as:", userEmail)
-        st.session_state["is_registered_user"] = True
-        openai_api_key = open_ai
+        # st.session_state["is_registered_user"] = True
+        # openai_api_key = open_ai
         st.markdown(f"[Log Out](/)")
 
     # Default settings if not a registered user

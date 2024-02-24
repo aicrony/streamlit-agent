@@ -337,26 +337,37 @@ with st.sidebar:
     openai_api_key = None
 
     # Check if the desired variable exists in the query parameters
-    if "user" in query_params and registered_users and not st.session_state["is_registered_user"]:
-        # Convert to Python list
-        email_list = registered_users.split("|")
+    # if "user" in query_params and registered_users and not st.session_state["is_registered_user"]:
+    #     # Convert to Python list
+    #     email_list = registered_users.split("|")
+    #     # Access the value of the variable
+    #     user = query_params["user"][0]
+    #     # Check if your email is in the list
+    #     if user in email_list:
+    #         st.session_state["is_registered_user"] = True
+    #         print("Email is in the list.")
+    #         st.write("You are logged in as:", user)
+    #         openai_api_key = open_ai
+    #         st.markdown(f"[Log Out](/)")
+    #     else:
+    #         st.session_state["is_registered_user"] = False
+    #         print("Not a registered user.")
+
+    if st.session_state['user_token'] and st.session_state['user_token'] is not None:
+        # print(registered_users)
         # Access the value of the variable
-        user = query_params["user"][0]
-        # Check if your email is in the list
-        if user in email_list:
+        userEmail = query_params["email"]
+        email_list = registered_users.split("|")
+        if userEmail in email_list:
             st.session_state["is_registered_user"] = True
             print("Email is in the list.")
-            st.write("You are logged in as:", user)
+            st.write("You are logged in as:", userEmail)
             openai_api_key = open_ai
             st.markdown(f"[Log Out](/)")
         else:
             st.session_state["is_registered_user"] = False
             print("Not a registered user.")
 
-    if st.session_state['user_token'] and st.session_state['user_token'] is not None:
-        # print(registered_users)
-        # Access the value of the variable
-        userEmail = query_params["email"]
         st.write("You are logged in as:", userEmail)
         # st.session_state["is_registered_user"] = True
         # openai_api_key = open_ai

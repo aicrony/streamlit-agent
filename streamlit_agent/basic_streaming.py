@@ -39,7 +39,7 @@ input_token_count = 0  # Initialize input token count to 0
 # st.image(logo, width=80)
 
 # Display the text in second column
-st.title("AiCrony Social App")
+st.title("AiCrony - John Sentient and Friends")
 
 # Define your character icons and messages
 characters = {
@@ -257,7 +257,7 @@ def process_user_token():
     # Check if the user token is available
     if user_token is None and st.session_state['user_token'] is None:
         signup_page = "https://www.aicrony.com/signup/"
-        st.markdown(f":red[Chat Now!]({signup_page})")
+        st.subheader(f"[:red[Sign up or log in to Chat Now!]]({signup_page})")
     elif user_token and not st.session_state['user_token']:
         st.session_state['user_token'] = user_token
         st.write(f"User Token Set")

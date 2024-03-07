@@ -364,8 +364,10 @@ with st.sidebar:
             st.write("You are logged in as:", userEmail)
             openai_api_key = open_ai
             st.markdown(f"[Log Out](/)")
+            st.session_state["display_blog_button"] = True
         else:
             st.session_state["is_registered_user"] = False
+            st.session_state["display_blog_button"] = False
             print("Not a registered user.")
 
 

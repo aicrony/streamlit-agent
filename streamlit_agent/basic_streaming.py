@@ -39,7 +39,8 @@ input_token_count = 0  # Initialize input token count to 0
 # st.image(logo, width=80)
 
 # Display the text in second column
-st.title("AiCrony - John Sentient and Friend Bloggers")
+st.title("AiCrony - Blogger Assistant")
+st.write("Ask questions, get answers, and write a blog post with one click.")
 
 # Define your character icons and messages
 characters = {
@@ -114,7 +115,7 @@ characters = {
         "web_search": False,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Dr. Serena - Psycholoist": {
+    "Dr. Serena - Psychologist": {
         "icon": "static/dr_serena.png",
         "short_description": "AI Psychologist",
         "message": "Greetings, I'm Dr. Serena. Understanding the human mind is my specialty. Talk to me about "

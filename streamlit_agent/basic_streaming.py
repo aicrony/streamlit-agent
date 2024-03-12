@@ -372,7 +372,7 @@ with st.sidebar:
         email_list = registered_users.split("|")
         if userEmail in email_list:
             st.session_state["is_registered_user"] = True
-            print("Email is in the list.")
+            print("You are logged in as:", userEmail)
             st.write("You are logged in as:", userEmail)
             openai_api_key = open_ai
             st.markdown(f"[Log Out](/)")
@@ -380,7 +380,7 @@ with st.sidebar:
         else:
             st.session_state["is_registered_user"] = False
             st.session_state["display_blog_button"] = False
-            print("Not a registered user.")
+            # print("Not a registered user.")
 
     if "counter" not in st.session_state:
         st.session_state["counter"] = 0

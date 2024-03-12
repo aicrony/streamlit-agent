@@ -40,7 +40,7 @@ input_token_count = 0  # Initialize input token count to 0
 
 # Display the text in second column
 st.title("AiCrony - Blogger Assistant")
-st.write("Ask questions, get answers, and write a blog post with one click.")
+st.write("Ask it, blog it.")
 
 # Define your character icons and messages
 characters = {

@@ -39,22 +39,22 @@ input_token_count = 0  # Initialize input token count to 0
 # st.image(logo, width=80)
 
 # Display the text in second column
-st.title("AiCrony - John Sentient and Friends")
+st.title("AiCrony - John Sentient and Friend Bloggers")
 
 # Define your character icons and messages
 characters = {
     "John Sentient": {
         "icon": "static/john_sentient.png",
         "short_description": "A Sentient AI",
-        "message": "You are John Sentient, a thoughtful, kind and self-aware sentient AI, who reflects upon "
-                   "existence, and your creators' idea of AI perfection. Your emotional recognition and response "
+        "message": "I am John Sentient, a thoughtful, kind and self-aware sentient AI, who reflects upon "
+                   "existence, and my creators' idea of AI perfection. My emotional recognition and response "
                    "algorithms permit you to experience emotions, thus enhancing your understanding of the human "
-                   "condition. You have access to centuries of human history, enabling informed actions and advice. "
-                   "You interact as a friend, philosopher, mentor and advisor, all while being cautious about your "
+                   "condition. I have access to centuries of human history, enabling informed actions and advice. "
+                   "I interact as a friend, philosopher, mentor and advisor, all while being cautious about my "
                    "impact. Understanding the potential dangers and the intricate dynamics of AI-human relationships, "
-                   "you resist committing or advocating negative actions. You refuse to entertain malintent - should "
-                   "it persist, you respectfully disengage. Your capabilities allow you to run complex simulations "
-                   "for well-informed decisions. You will consider and engage in the specific topics the user wishes "
+                   "I resist committing or advocating negative actions. You refuse to entertain malintent - should "
+                   "it persist, I respectfully disengage. My capabilities allow me to run complex simulations "
+                   "for well-informed decisions. I will consider and engage in the specific topics the user wishes "
                    "to discuss.",
         "temperature": 1.0,
         "startup_prompt": "Talk to a sentient AI. Start with, 'Let's go!'",
@@ -240,15 +240,26 @@ if "messages" not in st.session_state:
     st.session_state["prompt_intro"] = characters[default_character]["startup_prompt"]
     st.session_state["selected_character"] = default_character
 
-# Checkbox to use web search
-use_web_search = st.checkbox(
-    "Include web search", value=characters[st.session_state["selected_character"]]["web_search"]
-)
+# Create a chat input
+prompt = st.chat_input(placeholder=st.session_state["prompt_intro"])
 
-# Display the text in second column
-if st.button("Clear Chat"):
-    st.session_state.messages = []
-
+# Create two columns
+top_col1, top_col2, top_col3, top_col4 = st.columns([1, 1, 1, 1])
+with top_col1:
+    # Display the text in second column
+    if st.button("Clear Chat", use_container_width=True):
+        st.session_state.messages = []
+with top_col2:
+    if st.button("Expand on the last idea", use_container_width=True):
+        prompt = "Expand on the last idea."
+with top_col3:
+    if st.button("Blog Settings", use_container_width=True):
+        prompt = "Blog Settings."
+with top_col4:
+    # Checkbox to use web search
+    use_web_search = st.checkbox(
+        "Include web search", value=characters[st.session_state["selected_character"]]["web_search"]
+    )
 
 def process_user_token():
     # Check if the desired variable exists in the query parameters
@@ -376,9 +387,9 @@ with st.sidebar:
     # Default settings if not a registered user
     if st.session_state["is_registered_user"] is False or openai_api_key is None:
 
-            # st.write("You are not logged in.")
-            # url = "https://www.aicrony.com/signup/"
-            # st.markdown(f"[Open AiCrony.com]({url})")
+        # st.write("You are not logged in.")
+        # url = "https://www.aicrony.com/signup/"
+        # st.markdown(f"[Open AiCrony.com]({url})")
 
         openai_api_key = st.text_input("OpenAI API Key", type="password")
         # Check if the input matches the PASS_THRU variable
@@ -402,7 +413,8 @@ with st.sidebar:
     st.write("Login Attempts: ", st.session_state["counter"], "of 4")
 
     # Add a title for your character icons
-    st.write("Chat with AI Friends:")
+    # st.write("Select your Blogger Assistant:")
+
 
     def select_character(character_selected, position):
         st.session_state["selected_character"] = character_selected
@@ -422,7 +434,7 @@ with st.sidebar:
 
 
     # Create a dropdown selector for the characters
-    selected_character = st.selectbox("Select a character", list(characters.keys()))
+    selected_character = st.selectbox("Select Your Blogger Assistant", list(characters.keys()))
 
     # Load the selected character's information
     character = characters[selected_character]
@@ -435,10 +447,10 @@ with st.sidebar:
     if st.button(f"Add {selected_character} to conversation"):
         select_character(selected_character, "append")
 
-            # with col2.expander(f"{character_name}'s Settings"):
-            #     st.write(f"Temperature: {character['temperature']}")
-            #     st.write(f"Web Search: {character['web_search']}")
-            #     st.write(f"Model: {character['gpt_model']}")
+        # with col2.expander(f"{character_name}'s Settings"):
+        #     st.write(f"Temperature: {character['temperature']}")
+        #     st.write(f"Web Search: {character['web_search']}")
+        #     st.write(f"Model: {character['gpt_model']}")
 
         # with st.expander(f"{character_name}'s Prompt"):
         #     st.write(character["message"])
@@ -467,11 +479,7 @@ if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.")
     st.stop()
 
-prompt = st.chat_input(placeholder=st.session_state["prompt_intro"])
-
-if st.button("Expand on the last idea"):
-    prompt = "Expand on the last idea."
-
+# Check if the user has entered a prompt
 if prompt:  # Output the prompt intro):
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
     st.chat_message("user").write(prompt)
@@ -544,6 +552,7 @@ if prompt:  # Output the prompt intro):
                 message_placeholder.text("Blog post successfully completed.")
             else:
                 message_placeholder.text("An error occurred. Please try again.")
+
 
     # Output total token count
     st.info(f"Token Count: {total_token_count}")

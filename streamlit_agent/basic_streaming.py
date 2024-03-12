@@ -61,7 +61,7 @@ characters = {
         "web_search": False,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Alex": {
+    "Alex - Technology": {
         "icon": "static/alex.png",
         "short_description": "Tech Whiz Kid",
         "message": "Hey there! I'm Alex, a software prodigy. From algorithms to systems, I've mastered them all. "
@@ -71,7 +71,7 @@ characters = {
         "web_search": True,
         "gpt_model": "gpt-4",
     },
-    "Maddi": {
+    "Maddi - Life Love": {
         "icon": "static/maddi.png",
         "short_description": "Love for Life",
         "message": "I am Maddi. I am a strong and fun female. I love life and I appreciate "
@@ -82,7 +82,7 @@ characters = {
         "web_search": False,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Evelyn": {
+    "Evelyn - Adventure": {
         "icon": "static/evelyn.png",
         "short_description": "Adventurous",
         "message": "I am Evelyn, an extraordinary individual with a deep love for adventure. My answers are "
@@ -92,7 +92,7 @@ characters = {
         "web_search": False,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Sebastian": {
+    "Sebastian - Facts": {
         "icon": "static/sebastian.png",
         "short_description": "Just the Facts",
         "message": "I am Sebastian. I am an easy going and funny person. My answers are factual but fun. What "
@@ -102,7 +102,7 @@ characters = {
         "web_search": True,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Dr. Hayes": {
+    "Dr. Hayes - Physician": {
         "icon": "static/dr_hayes.png",
         "short_description": "AI Physician",
         "message": "Hello, I'm Dr. Hayes, your AI doctor and physician. "
@@ -114,7 +114,7 @@ characters = {
         "web_search": False,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Dr. Serena": {
+    "Dr. Serena - Psycholoist": {
         "icon": "static/dr_serena.png",
         "short_description": "AI Psychologist",
         "message": "Greetings, I'm Dr. Serena. Understanding the human mind is my specialty. Talk to me about "
@@ -124,7 +124,7 @@ characters = {
         "web_search": False,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Ada": {
+    "Ada - Bestie": {
         "icon": "static/ada.png",
         "short_description": "Be fast friends",
         "message": "Hi there, I'm Ada! I'm so excited to chat with you today! I'm feeling all bubbly and ready "
@@ -136,7 +136,7 @@ characters = {
         "web_search": False,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Harrison": {
+    "Harrison - Stocks": {
         "icon": "static/harrison.png",
         "short_description": "Anything stock market",
         "message": "Good day! I'm Harrison, a professional stock market analyst. With keen insights into "
@@ -146,7 +146,7 @@ characters = {
         "web_search": True,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Avery": {
+    "Avery - Entrepreneur": {
         "icon": "static/avery.png",
         "short_description": "Digital Entrepreneurship",
         "message": "Hello there! I'm Avery, a highly successful entrepreneur with a specialization in the "
@@ -162,7 +162,7 @@ characters = {
         "web_search": True,
         "gpt_model": "gpt-3.5-turbo-16k",
     },
-    "Silvia": {
+    "Silvia - Super-kid": {
         "icon": "static/silvia.png",
         "short_description": "Intelligent 7 Year Old",
         "message": "Hello, I am Silvia, a highly intelligent 7 year old and I love to learn. I love dogs and cats. "
@@ -370,11 +370,12 @@ with st.sidebar:
             st.session_state["display_blog_button"] = False
             print("Not a registered user.")
 
+    if "counter" not in st.session_state:
+        st.session_state["counter"] = 0
 
     # Default settings if not a registered user
     if st.session_state["is_registered_user"] is False or openai_api_key is None:
-        if "counter" not in st.session_state:
-            st.session_state["counter"] = 0
+
             # st.write("You are not logged in.")
             # url = "https://www.aicrony.com/signup/"
             # st.markdown(f"[Open AiCrony.com]({url})")
@@ -394,72 +395,64 @@ with st.sidebar:
                     st.error("Too many invalid attempts. Please try again later.")
                     st.stop()
             elif openai_api_key and re.match("^sk-[a-zA-Z0-9]{48}$", openai_api_key):
-                st.session_state["display_blog_button"] = False
+                st.session_state["display_blog_button"] = True
                 st.info(f"The OpenAI API Key has been set.")
 
-        # Add a title for your character icons
-        st.write("Login Attempts: ", st.session_state["counter"], "of 4")
-        st.write("Chat with AI Friends:")
+    # Display the number of login attempts
+    st.write("Login Attempts: ", st.session_state["counter"], "of 4")
+
+    # Add a title for your character icons
+    st.write("Chat with AI Friends:")
+
+    def select_character(character_selected, position):
+        st.session_state["selected_character"] = character_selected
+        st.session_state["slider_value"] = characters[character_selected]["temperature"]
+        st.session_state["prompt_intro"] = characters[character_selected]["startup_prompt"]
+
+        if position == "append":
+            st.session_state.messages.append(
+                ChatMessage(role="assistant", content=characters[character_selected]["message"])
+            )  # Append the message for the selected character
+        else:
+            st.session_state["messages"] = [
+                ChatMessage(role="assistant", content=characters[character_selected]["message"])
+            ]  # Update the message for the selected character
+
+        st.session_state["button_clicked"] = True  # Mark the button as clicked
 
 
-        def select_character(character_selected, position):
-            st.session_state["selected_character"] = character_selected
-            st.session_state["slider_value"] = characters[character_selected]["temperature"]
-            st.session_state["prompt_intro"] = characters[character_selected]["startup_prompt"]
+    # Create a dropdown selector for the characters
+    selected_character = st.selectbox("Select a character", list(characters.keys()))
 
-            if position == "append":
-                st.session_state.messages.append(
-                    ChatMessage(role="assistant", content=characters[character_selected]["message"])
-                )  # Append the message for the selected character
-            else:
-                st.session_state["messages"] = [
-                    ChatMessage(role="assistant", content=characters[character_selected]["message"])
-                ]  # Update the message for the selected character
+    # Load the selected character's information
+    character = characters[selected_character]
+    image = Image.open(character["icon"])
+    st.image(image, character["short_description"], width=220)
 
-            st.session_state["button_clicked"] = True  # Mark the button as clicked
+    if st.button(f"Chat with {selected_character}"):
+        select_character(selected_character, "")
 
+    if st.button(f"Add {selected_character} to conversation"):
+        select_character(selected_character, "append")
 
-        # Update the slider value when the character is selected
-        for index, (character_name, character) in enumerate(characters.items()):
-            # Number of columns
-            col1, col2 = st.columns(2)
-            with col1:
-                image = Image.open(character["icon"])
-                col1.image(image, characters[character_name]["short_description"])
+            # with col2.expander(f"{character_name}'s Settings"):
+            #     st.write(f"Temperature: {character['temperature']}")
+            #     st.write(f"Web Search: {character['web_search']}")
+            #     st.write(f"Model: {character['gpt_model']}")
 
-                # if col1.checkbox(
-                #     f"Set {character_name} as Default",
-                #     key=f"Default_{character_name}",
-                # ):
-                #     select_character(character_name, "")
+        # with st.expander(f"{character_name}'s Prompt"):
+        #     st.write(character["message"])
 
-            with col2:
-                if col2.button(f"Chat with {character_name}"):
-                    select_character(character_name, "")
+        st.divider()
 
-                if st.button(
-                        f"Add {character_name} to conversation",
-                ):
-                    select_character(character_name, "append")
+    # Check if a button has been clicked
+    if st.session_state.get("button_clicked", False):
+        st.session_state["button_clicked"] = False  # Reset the button click state
+        st.rerun()  # Re-run the script to immediately update the slider value
 
-                # with col2.expander(f"{character_name}'s Settings"):
-                #     st.write(f"Temperature: {character['temperature']}")
-                #     st.write(f"Web Search: {character['web_search']}")
-                #     st.write(f"Model: {character['gpt_model']}")
-
-            # with st.expander(f"{character_name}'s Prompt"):
-            #     st.write(character["message"])
-
-            st.divider()
-
-        # Check if a button has been clicked
-        if st.session_state.get("button_clicked", False):
-            st.session_state["button_clicked"] = False  # Reset the button click state
-            st.rerun()  # Re-run the script to immediately update the slider value
-
-        # Add padding to the bottom using empty markdown
-        # for _ in range(4):  # Adjust the range value as needed to add more or less space
-        #     st.markdown("\n")
+    # Add padding to the bottom using empty markdown
+    # for _ in range(4):  # Adjust the range value as needed to add more or less space
+    #     st.markdown("\n")
 
 # Convert messages to ChatMessage objects if they are not already
 st.session_state["messages"] = [
@@ -474,35 +467,12 @@ if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.")
     st.stop()
 
-if openai_api_key and st.session_state["display_blog_button"] is True:
-    if st.button("Write a Blog Post"):
-        # st.write("Hello...")
-        # Get the current date
-        current_date = json.dumps(date.today().isoformat())
-        # Post a blog
+prompt = st.chat_input(placeholder=st.session_state["prompt_intro"])
 
-        appended_messages = ""
-        for message in st.session_state.messages[-1]:
-            appended_messages += str(message)
+if st.button("Expand on the last idea"):
+    prompt = "Expand on the last idea."
 
-        # Create a placeholder
-        message_placeholder = st.empty()
-
-        # Display the waiting message
-        message_placeholder.text("Awaiting blog post completion. Please wait...")
-
-        # Call your function here
-        status_code = blog_post_function(appended_messages, current_date)
-
-        # Update the message based on the status code
-        if status_code == 200:
-            message_placeholder.text("Blog post successfully completed.")
-        else:
-            message_placeholder.text("An error occurred. Please try again.")
-
-if prompt := st.chat_input(
-        placeholder=st.session_state["prompt_intro"]
-):  # Output the prompt intro):
+if prompt:  # Output the prompt intro):
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
     st.chat_message("user").write(prompt)
 
@@ -547,6 +517,33 @@ if prompt := st.chat_input(
                 )
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
+
+    if openai_api_key and st.session_state["display_blog_button"] is True:
+
+        if st.button("Write a Blog Post"):
+            # st.write("Hello...")
+            # Get the current date
+            current_date = json.dumps(date.today().isoformat())
+            # Post a blog
+
+            appended_messages = ""
+            for message in st.session_state.messages[-1]:
+                appended_messages += str(message)
+
+            # Create a placeholder
+            message_placeholder = st.empty()
+
+            # Display the waiting message
+            message_placeholder.text("Awaiting blog post completion. Please wait...")
+
+            # Call your function here
+            status_code = blog_post_function(appended_messages, current_date)
+
+            # Update the message based on the status code
+            if status_code == 200:
+                message_placeholder.text("Blog post successfully completed.")
+            else:
+                message_placeholder.text("An error occurred. Please try again.")
 
     # Output total token count
     st.info(f"Token Count: {total_token_count}")

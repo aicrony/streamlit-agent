@@ -5,11 +5,11 @@ import json
 from datetime import date
 from PIL import Image
 import streamlit as st
-from langchain.agents import initialize_agent, AgentType
+from langchain.agents import initialize_agent, AgentType, create_react_agent
 from langchain_community.callbacks import StreamlitCallbackHandler
 # from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from langchain.callbacks.base import BaseCallbackHandler
-from langchain_community.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.schema import ChatMessage
 from langchain_community.tools import DuckDuckGoSearchRun
 import toml

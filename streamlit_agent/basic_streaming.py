@@ -29,7 +29,9 @@ st.set_page_config(
 
 logo = "static/aicrony_logo.png"
 
-st.session_state["display_blog_button"] = False
+st.session_state["show_token_count"] = False
+
+st.session_state["display_blog_button"] = True
 
 st.session_state["is_registered_user"] = None
 
@@ -250,6 +252,7 @@ with top_col1:
     # Display the text in second column
     if st.button("Clear Chat", use_container_width=True):
         st.session_state.messages = []
+        st.session_state["display_blog_button"] = False
 with top_col2:
     if st.button("Expand on the last idea", use_container_width=True):
         prompt = "Expand on the last idea."
@@ -372,14 +375,12 @@ with st.sidebar:
         email_list = registered_users.split("|")
         if userEmail in email_list:
             st.session_state["is_registered_user"] = True
-            print("You are logged in as:", userEmail)
+            # print("You are logged in as:", userEmail)
             st.write("You are logged in as:", userEmail)
             openai_api_key = open_ai
             st.markdown(f"[Log Out](/)")
-            st.session_state["display_blog_button"] = True
         else:
             st.session_state["is_registered_user"] = False
-            st.session_state["display_blog_button"] = False
             # print("Not a registered user.")
 
     if "counter" not in st.session_state:
@@ -396,7 +397,7 @@ with st.sidebar:
         # Check if the input matches the PASS_THRU variable
         if openai_api_key == pass_thru:
             openai_api_key = open_ai  # Set the OPEN_AI environment variable to the OpenAI API Key
-            st.session_state["display_blog_button"] = True
+            # st.session_state["display_blog_button"] = True
             st.info(f"The AiCrony API Key has been set.")  # Display the updated value
         else:
             if openai_api_key and not re.match("^sk-[a-zA-Z0-9]{48}$", openai_api_key):
@@ -407,7 +408,7 @@ with st.sidebar:
                     st.error("Too many invalid attempts. Please try again later.")
                     st.stop()
             elif openai_api_key and re.match("^sk-[a-zA-Z0-9]{48}$", openai_api_key):
-                st.session_state["display_blog_button"] = True
+                # st.session_state["display_blog_button"] = True
                 st.info(f"The OpenAI API Key has been set.")
 
     # Display the number of login attempts
@@ -505,6 +506,8 @@ if prompt:  # Output the prompt intro):
             st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
             response = search_agent.run(st.session_state.messages, callbacks=[st_cb])
             st.session_state.messages.append(ChatMessage(role="assistant", content=response))
+            st.session_state["display_blog_button"] = True
+            st.session_state["show_token_count"] = True
             st.write(response)
 
     else:
@@ -524,36 +527,38 @@ if prompt:  # Output the prompt intro):
                 st.session_state.messages.append(
                     ChatMessage(role="assistant", content=response.content)
                 )
+                st.session_state["display_blog_button"] = True
+                st.session_state["show_token_count"] = True
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
 
-    if openai_api_key and st.session_state["display_blog_button"] is True:
+if st.session_state["display_blog_button"] is True and st.session_state.messages:
 
-        if st.button("Write a Blog Post"):
-            # st.write("Hello...")
-            # Get the current date
-            current_date = json.dumps(date.today().isoformat())
-            # Post a blog
+    if st.button("Write blog post from latest response"):
+        # st.write("Hello...")
+        # Get the current date
+        current_date = json.dumps(date.today().isoformat())
+        # Post a blog
 
-            appended_messages = ""
-            for message in st.session_state.messages[-1]:
-                appended_messages += str(message)
+        appended_messages = ""
+        for message in st.session_state.messages[-1]:
+            appended_messages += str(message)
 
-            # Create a placeholder
-            message_placeholder = st.empty()
+        # Create a placeholder
+        message_placeholder = st.empty()
 
-            # Display the waiting message
-            message_placeholder.text("Awaiting blog post completion. Please wait...")
+        # Display the waiting message
+        message_placeholder.text("Awaiting blog post completion. Please wait...")
 
-            # Call your function here
-            status_code = blog_post_function(appended_messages, current_date)
+        # Call your function here
+        status_code = blog_post_function(appended_messages, current_date)
 
-            # Update the message based on the status code
-            if status_code == 200:
-                message_placeholder.text("Blog post successfully completed.")
-            else:
-                message_placeholder.text("An error occurred. Please try again.")
+        # Update the message based on the status code
+        if status_code == 200:
+            message_placeholder.text("Blog post successfully completed.")
+        else:
+            message_placeholder.text("An error occurred. Please try again.")
 
-
+if st.session_state["show_token_count"] is True:
     # Output total token count
-    st.info(f"Token Count: {total_token_count}")
+    st.info(f"Used Token Count: {total_token_count}")

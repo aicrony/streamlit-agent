@@ -41,8 +41,8 @@ input_token_count = 0  # Initialize input token count to 0
 # st.image(logo, width=80)
 
 # Display the text in second column
-st.title("AiCrony - Blogger Assistant")
-st.write("Ask it, blog it.")
+st.title("AiCrony - Conversational Sentient AI")
+# st.write("Ask it, blog it.")
 
 # Define your character icons and messages
 characters = {
@@ -257,7 +257,7 @@ with top_col2:
     if st.button("Expand on the last idea", use_container_width=True):
         prompt = "Expand on the last idea."
 with top_col3:
-    if st.button("Blog Settings", use_container_width=True):
+    if st.button("Start a Blog / Settings", use_container_width=True):
         prompt = "Blog Settings."
 with top_col4:
     # Checkbox to use web search
@@ -290,9 +290,9 @@ def blog_post_function(topic, date_to_post):
     # Pass in user data here from Ghost to be selected from or inserted into the database
     data = {
         "type": "chat-gpt-blog-post",
-        "aiPrompt": f"Write a blog post in the third person perspective with at least 7 or more headings, make each "
-                    f"heading with 2 or 3 paragraphs of content, and make the final heading be a conclusion"
-                    f", about: {topic}.",
+        "aiPrompt": f"Write a keyword-optimized blog post in the third person perspective with at least 7 or more "
+                    f"headings, make each heading with 2 or 3 paragraphs of content, and make the final "
+                    f"heading be a conclusion about: {topic}.",
         "data": {
             "uuid": "autoblog",
             "email": "support@aicrony.com",
@@ -389,9 +389,9 @@ with st.sidebar:
     # Default settings if not a registered user
     if st.session_state["is_registered_user"] is False or openai_api_key is None:
 
-        # st.write("You are not logged in.")
-        # url = "https://www.aicrony.com/signup/"
-        # st.markdown(f"[Open AiCrony.com]({url})")
+        st.write("You are not logged in.")
+        url = "https://www.aicrony.com/signup/"
+        st.markdown(f"[Sign-up on AiCrony.com]({url})")
 
         openai_api_key = st.text_input("OpenAI API Key", type="password")
         # Check if the input matches the PASS_THRU variable
